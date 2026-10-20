@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClipTube · Subtítulos animados para tus clips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo" aria-hidden="true"></span><h1>ClipTube</h1></div>
+  <p class="tag">Recorta un tramo de YouTube y dale subtítulos que se mueven.</p>
+  <ol class="steps">
+    <li>Elige el clip</li><li>Genera los subtítulos</li><li>Exporta el video</li>
+  </ol>
+</header>
+
+<main>
+  <section class="card">
+    <h2>Elige el clip</h2>
+    <label for="url">Enlace de YouTube</label>
+    <div class="row">
+      <input type="text" id="url" placeholder="https://www.youtube.com/watch?v=...">
+      <button id="load" class="p">Cargar</button>
+    </div>
+    <div id="playerBox"><div id="player"><div class="empty">Pega un enlace y pulsa Cargar</div></div></div>
+    <div class="row">
+      <div><label for="t0">Inicio (mm:ss)</label><input type="text" id="t0" value="0:00"></div>
+      <button class="g" id="m0">Usar tiempo actual</button>
+      <div><label for="t1">Fin (mm:ss)</label><input type="text" id="t1" value="0:30"></div>
+      <button class="g" id="m1">Usar tiempo actual</button>
+    </div>
+    <p class="small">Al grabar, el navegador te pedirá compartir <b>esta pestaña</b>. Marca también «Compartir audio de la pestaña».</p>
+    <div class="row"><button id="rec" class="p big">Grabar clip</button></div>
+    <label for="file">O sube un video desde tu computadora</label>
+    <input type="file" id="file" accept="video/*">
+    <div id="msg" role="status" aria-live="polite"></div>
+  </section>
+
+  <section class="card hide" id="editor">
+    <h2>Subtítulos y exportación</h2>
+    <div class="stage"><canvas id="cv" width="1280" height="720"></canvas></div>
+    <video id="vid" playsinline style="position:absolute;opacity:0;pointer-events:none;width:2px"></video>
+    <input type="range" id="seek" min="0" max="1000" value="0" aria-label="Posición del video">
+    <div class="row"><button id="play" class="g">Reproducir</button><a id="raw" class="small" download="clip-original.webm">Descargar clip sin subtítulos</a></div>
+
+    <label for="lang">Idioma del audio y modelo</label>
+    <div class="row">
+      <select id="lang"><option value="spanish">Español</option><option value="english">Inglés</option><option value="portuguese">Portugués</option><option value="french">Francés</option><option value="">Detectar automático</option></select>
+      <select id="model" aria-label="Modelo"><option value="Xenova/whisper-tiny">Rápido (tiny)</option><option value="Xenova/whisper-base" selected>Equilibrado (base)</option><option value="Xenova/whisper-small">Más preciso (small)</option></select>
+      <button id="gen" class="p">Generar subtítulos</button>
+    </div>
+
+    <div id="prog" class="hide">
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="row pinfo"><span id="barTxt" class="small"></span><button id="cancel" class="g">Cancelar</button></div>
+    </div>
+
+    <div id="styleBox" class="hide">
+      <div class="row">
+        <div><label for="color">Color de la palabra activa</label><input type="color" id="color" value="#ffe600"></div>
+        <div><label for="wpl">Palabras por línea</label><select id="wpl"><option>2</option><option selected>3</option><option>4</option><option>5</option></select></div>
+        <div><label for="caps">Mayúsculas</label><select id="caps"><option value="1">Sí</option><option value="0">No</option></select></div>
+      </div>
+      <div class="row">
+        <div><label for="size">Tamaño</label><input type="range" id="size" min="60" max="160" value="100"></div>
+        <div><label for="pos">Altura</label><input type="range" id="pos" min="15" max="92" value="78"></div>
+        <div><label for="off">Retraso (s)</label><input type="range" id="off" min="-1" max="1" step="0.05" value="0"></div>
+      </div>
+      <label>Corrige el texto (toca el tiempo para saltar a esa línea)</label>
+      <div id="list"></div>
+      <div class="row" style="margin-top:14px"><button id="exp" class="p big">Exportar con subtítulos y audio</button></div>
+      <p class="small">La exportación dura lo mismo que el clip. Mantén esta pestaña visible mientras se genera.</p>
+    </div>
+  </section>
+</main>
+<footer>Versión 2 · Todo se procesa en tu navegador. Nada se sube a ningún servidor.</footer>
+<script src="app.js?v=2"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+ClipTube - subtitulos animados en el navegador
+Archivos (los cuatro juntos, en la raiz del repositorio): index.html, styles.css, app.js, worker.js
+GitHub: sube los cuatro -> Settings > Pages > rama main, carpeta / (root).
+Usa Chrome o Edge de escritorio. No necesita servidor ni claves.
